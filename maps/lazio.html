@@ -1,0 +1,152 @@
+<html>
+<head>
+    <title>Rome Map Container</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- All the stuff you need to install from Leaflet -->
+    <link rel="stylesheet" href="../leaflet/leaflet.css" />
+    <script src="../leaflet/leaflet.js"></script>
+    <script type='text/javascript' src='js/a.jquery.min.js'></script>
+	<link rel="stylesheet" href="leaflet/screen.css" />
+  <script src="../dist/leaflet.markercluster.js"></script>
+	<link rel="stylesheet" href="../dist/MarkerCluster.css" />
+	<link rel="stylesheet" href="../dist/MarkerCluster.Default.css" />
+	<script src='../dist/Leaflet.fullscreen.min.js'></script>
+	<link href='../dist/leaflet.fullscreen.css' rel='stylesheet' />
+
+	<link href='jPopup.css' rel='stylesheet' type='text/css'>
+
+
+	<style>#map { width: 99%; height: 600px; }
+	.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; }
+	.info h4 { margin: 0 0 5px; color: #777; }
+	.legend { text-align: left; line-height: 18px; color: #555; }
+	.legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+	</style>
+
+
+
+</head>
+<body style="margin:0; padding:0;">
+    <!-- The <div> where we're put the map -->
+    <div id="map" style="width: 99%; height: 600px;"></div>
+		<script src="lazioprovince.js"></script>
+		<script src="placesf.js"></script>
+
+
+
+
+				<script src="jPopup.js"></script>
+	<script type="text/javascript">
+
+
+
+
+
+
+        // Initialize the map object
+		var basem=L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		minZoom: 8.3,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery &copy; <a href="http://mapbox.com">Mapbox</a>, ' + 'Photographs &copy; <a href="http://lizrideal.com/"  target="_blank">Liz Rideal</a>, '
+			+ 'Archive photographs &copy; <a href="http://www.bsr.ac.uk/"  target="_blank">British School at Rome</a> ',
+		id: 'mapbox.light'
+		});
+
+		var oldm=L.tileLayer('https://api.mapbox.com/styles/v1/syma9/cj4mkkyk89zv52spmdnaz8lv5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3ltYTkiLCJhIjoiY2l6ajNxNzhkMDAyaTJ3cjQ4b2w2a2Q1ayJ9.owwqYLgdsxxc1YQ9QjWs0g', {
+		maxZoom: 18,
+		minZoom: 8.3,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery &copy; <a href="http://mapbox.com">Mapbox</a>, ' + 'Photographs &copy; <a href="http://lizrideal.com/"  target="_blank">Liz Rideal</a>, '
+			+ 'Archive photographs &copy; <a href="http://www.bsr.ac.uk/"  target="_blank">British School at Rome</a> ',
+		id: 'mapbox.dark'
+		});
+
+
+
+		var map = L.map('map', {
+			fullscreenControl: true,
+			fullscreenControlOptions: {
+				position: 'topleft'
+			},
+		layers: [basem]
+		})
+		.setView([41.8919300, 12.5113300], 8.5);
+
+
+	var basemuniciple;
+
+	var basemuniciple = new L.geoJson(lazio, {
+    onEachFeature: function(feature, layer) {
+            if (feature.properties && feature.properties.province) {
+                layer.bindPopup(feature.properties.province, {offset: L.point(0, -20)});
+            }
+        }});
+
+
+
+	map.addLayer(basemuniciple);
+
+
+    var places = new L.geoJson(places, {
+        onEachFeature: function(feature, layer) {
+            if (feature.properties && feature.properties.strings) {
+                layer.bindPopup(feature.properties.strings, {minWidth: 600, offset: L.point(0, -20)});
+
+
+				layer.on('click', function() { layer.openPopup(); } );
+
+            }
+        },
+        pointToLayer: function (feature, latlng) {
+			return L.circleMarker(latlng, {
+				radius: 6,
+				fillColor: "#ff7800",
+				color: "#000",
+				weight: 1,
+				opacity: 1,
+				fillOpacity: 0.8
+			});
+        }
+    });
+
+	map.addLayer(places);
+    map.fitBounds(places.getBounds(), {padding: [0, 0]});
+
+	var baseLayers = {
+			"Default": basem,
+			"Archive": oldm
+		};
+
+		L.control.layers(baseLayers).addTo(map);
+
+
+
+
+
+
+
+
+    </script>
+	<div id='test'></div>
+
+	<script>
+
+		document.querySelector('#test').addEventListener('click', function() {
+
+			var jPopupDemo = new jPopup({
+
+				contentHtml: '<strong>Hurray</strong>\
+						<p>You can put any content you want here.</p>'
+
+			});
+
+		});
+	</script>
+
+
+
+</body>
+</html>

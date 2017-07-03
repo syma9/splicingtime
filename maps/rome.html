@@ -1,0 +1,84 @@
+<html>
+<head>
+    <title>Rome Map Container</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- All the stuff you need to install from Leaflet -->
+    <link rel="stylesheet" href="../leaflet/leaflet.css" />
+    <script src="../leaflet/leaflet.js"></script>
+    <script type='text/javascript' src='js/a.jquery.min.js'></script>
+	<link rel="stylesheet" href="leaflet/screen.css" />
+  	<script src="../dist/leaflet.markercluster.js"></script>
+	<link rel="stylesheet" href="../dist/MarkerCluster.css" />
+	<link rel="stylesheet" href="../dist/MarkerCluster.Default.css" />
+	<script src='../dist/Leaflet.fullscreen.min.js'></script>
+	<link href='../dist/leaflet.fullscreen.css' rel='stylesheet' />
+
+	<link href='jPopup.css' rel='stylesheet' type='text/css'>
+
+
+	<style>#map { width: 99%; height: 600px; }
+	.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; }
+	.info h4 { margin: 0 0 5px; color: #777; }
+	.legend { text-align: left; line-height: 18px; color: #555; }
+	.legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+	</style>
+
+
+
+</head>
+<body style="margin:0; padding:0;">
+    <!-- The <div> where we're put the map -->
+    <div id="map" style="width: 99%; height: 600px;"></div>
+		<script src="lazioprovince.js"></script>
+		<script src="placesf.js"></script>
+
+
+
+
+				<script src="jPopup.js"></script>
+	<script type="text/javascript">
+
+  var map = L.map('map', {
+  		crs: L.CRS.Simple,
+  		minZoom: 1.4
+  	});
+
+  	var yx = L.latLng;
+
+  	var xy = function(x, y) {
+  		if (L.Util.isArray(x)) {    // When doing xy([x, y]);
+  			return yx(x[1], x[0]);
+  		}
+  		return yx(y, x);  // When doing xy(x, y);
+  	};
+
+  	var bounds = [xy(0, 0), xy(500, 200)];
+  	var image = L.imageOverlay('vasi.png', bounds).addTo(map);
+
+  	var mountains     = L.marker(xy(250, 150)).bindPopup('Mountains');
+  	var vatican   = L.marker(xy( 65, 100)).bindPopup('Vatican City');
+
+
+    var legend = L.layerGroup([mountains,vatican]);
+
+    var overlayMaps = {
+        "Legend": legend
+    };
+
+    L.control.layers(null, overlayMaps, {collapsed:false}).addTo(map);
+
+  	map.setView(xy(255, 85), 1.5);
+
+	</script>
+
+<div id='varsitext'>
+  <p>
+    This view by Varsi is taken from the Gianiculum Hill looking east over Rome. The pinpoints here are restricted to Rideal’s signature floating cloth works. The city is depicted with its layers of history represented by a mass of architectural constructions and ruins against the bare hills indicated beyond. We can recognize the peaks of Monte Soratte and those of Capraola, Monterosi and Monterotondo further east . Using these landmarks we can makes further connections with the maps showing the broader Lazio region.
+  </p>
+</div>
+
+
+
+
+</body>
+</html>
