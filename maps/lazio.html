@@ -76,18 +76,18 @@
 		.setView([41.8919300, 12.5113300], 8.5);
 
 
-	var basemuniciple;
+	//var basemuniciple;
 
-	var basemuniciple = new L.geoJson(lazio, {
-    onEachFeature: function(feature, layer) {
-            if (feature.properties && feature.properties.province) {
-                layer.bindPopup(feature.properties.province, {offset: L.point(0, -20)});
-            }
-        }});
+	//var basemuniciple = new L.geoJson(lazio, {
+  //  onEachFeature: function(feature, layer) {
+  //          if (feature.properties && feature.properties.province) {
+  //              layer.bindPopup(feature.properties.province, {offset: L.point(0, -20)});
+  //          }
+  //      }});
 
 
 
-	map.addLayer(basemuniciple);
+	//map.addLayer(basemuniciple);
 
 
     var places = new L.geoJson(places, {
